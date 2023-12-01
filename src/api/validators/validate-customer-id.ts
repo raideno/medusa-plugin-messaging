@@ -1,6 +1,6 @@
 import { MedusaContainer, CustomerService } from "@medusajs/medusa"
 
-import Customer from "@models/customer";
+import Customer from "../../models/customer";
 
 export default async (container: MedusaContainer, customerId: string): Promise<Customer | null | undefined> => {
     const customerService: CustomerService = container.resolve("customerService");

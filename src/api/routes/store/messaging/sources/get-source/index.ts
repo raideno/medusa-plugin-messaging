@@ -3,13 +3,13 @@ import { plainToInstance } from "class-transformer";
 
 import { MedusaError } from "@medusajs/utils";
 
-import MedusaPluginMessagingSourceService from "@services/source";
+import MedusaPluginMessagingSourceService from "../../../../../../services/medusa-plugin-messaging-source";
 
-import validate from "@api/helpers/validate";
-import validateChannelId from "@api/validators/validate-channel-id";
+import validate from "../../../../../../api/helpers/validate";
+import validateChannelId from "../../../../../../api/validators/validate-channel-id";
 
 import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
-import validateSourceId from "@api/validators/validate-source-id";
+import validateSourceId from "../../../../../../api/validators/validate-source-id";
 
 export default async (req: Request, res: Response): Promise<void> => {
     const customerId = req.user.customer_id;

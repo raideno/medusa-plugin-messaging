@@ -1,7 +1,7 @@
 import { MedusaContainer } from "@medusajs/medusa"
 
-import Channel from "@models/channel";
-import ChannelService from "@services/channel";
+import Channel from "../../models/channel";
+import ChannelService from "../../services/medusa-plugin-messaging-channel";
 
 export default async (container: MedusaContainer, channelId: string): Promise<Channel | null | undefined> => {
     const channelService: ChannelService = container.resolve("medusaPluginMessagingChannelService");

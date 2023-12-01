@@ -1,4 +1,4 @@
-import Channel from "@models/channel";
+import Channel from "../../../../../../models/channel";
 
 // export enum ChannelSourceMessageEvents {
 //     MESSAGE_CREATE = "MESSAGE_CREATE",

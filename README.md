@@ -8,7 +8,7 @@
 
 ![Thumbnail](./assets/plugin-thumbnail.png)
 
-Enhance your Medusa ecommerce shop with \***\*meudsa-plugin-messaging\*\***, a seamless messaging extension that empowers customers to communicate effortlessly while integrating social media messages into the admin dashboard for efficient store management. Elevate your user experience with a clean and intuitive UI.
+Enhance your Medusa ecommerce shop with **meudsa-plugin-messaging**, a seamless messaging extension that empowers customers to communicate effortlessly while integrating social media messages into the admin dashboard for efficient store management. Elevate your user experience with a clean and intuitive UI.
 
 ## Documentation
 

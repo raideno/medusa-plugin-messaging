@@ -3,18 +3,12 @@ import { plainToInstance } from "class-transformer";
 
 import { MedusaError } from "@medusajs/utils";
 
-import MedusaPluginMessagingMessageService from "@services/message";
+import MedusaPluginMessagingMessageService from "../../../../../../services/medusa-plugin-messaging-message";
 
-import validate from "@api/helpers/validate";
-import validateSourceId from "@api/validators/validate-source-id";
-import validateChannelId from "@api/validators/validate-channel-id";
+import validateChannelId from "../../../../../../api/validators/validate-channel-id";
 
 import { EndpointEventResponseBodyType, EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
-import { AuthorType } from "@models/message";
-import validateMessageId from "@api/validators/validate-message-id";
-import { medusaPluginMessagingMessageEvents } from "@api/events/message";
-import { medusaPluginMessagingSourceEvents } from "@api/events/source";
-import { medusaPluginMessagingChannelEvents } from "@api/events/channel";
+import { medusaPluginMessagingChannelEvents } from "../../../../../../api/events/channel";
 
 /**
  * only staff member who posted the message can delete it
@@ -57,7 +51,7 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     medusaPluginMessagingChannelEvents.addListener("medusa-plugin-messaging-channel-update-event", (data) => {
         const event: EndpointEventResponseBodyType = {
-            name: "medusa-plugin-messaging-channel-insert-event",
+            name: "medusa-plugin-messaging-channel-update-event",
             data: { channel: data }
         };
         res.write(`data: ${JSON.stringify(event)}\n\n`);
@@ -65,7 +59,7 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     medusaPluginMessagingChannelEvents.addListener("medusa-plugin-messaging-channel-delete-event", (data) => {
         const event: EndpointEventResponseBodyType = {
-            name: "medusa-plugin-messaging-channel-insert-event",
+            name: "medusa-plugin-messaging-channel-delete-event",
             data: { channel: data }
         };
         res.write(`data: ${JSON.stringify(event)}\n\n`);

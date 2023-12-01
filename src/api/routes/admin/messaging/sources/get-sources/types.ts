@@ -1,4 +1,4 @@
-import MedusaPluginMessagingSource from "@models/source";
+import MedusaPluginMessagingSource from "../../../../../../models/source";
 
 /**
  * should we allow the handlerId, externalId and context to be updated ?

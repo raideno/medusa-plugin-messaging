@@ -1,4 +1,4 @@
-import MedusaPluginMessagingChannel from "@models/channel";
+import MedusaPluginMessagingChannel from "../../../../../../models/channel";
 
 export type EndpointRequestBodyType = Pick<MedusaPluginMessagingChannel, "metadata">;
 

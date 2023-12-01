@@ -3,10 +3,10 @@ import { plainToInstance } from "class-transformer";
 
 import { MedusaError } from "@medusajs/utils";
 
-import MedusaPluginMessagingChannelService from "@services/channel";
+import MedusaPluginMessagingChannelService from "../../../../../../services/medusa-plugin-messaging-channel";
 
-import validate from "@api/helpers/validate";
-import validateCustomerId from "@api/validators/validate-customer-id";
+import validate from "../../../../../../api/helpers/validate";
+import validateCustomerId from "../../../../../../api/validators/validate-customer-id";
 
 import { BodyValidator } from "./body-validator";
 import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";

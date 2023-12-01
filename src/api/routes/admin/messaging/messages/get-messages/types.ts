@@ -1,4 +1,9 @@
-import MedusaPluginMessagingMessage from "@models/message";
+import MedusaPluginMessagingMessage from "../../../../../../models/message";
+
+export type EndpointRequestQueryParamsType = {
+    offset?: number | undefined;
+    limit?: number | undefined;
+};
 
 export type EndpointRequestBodyType = void;
 

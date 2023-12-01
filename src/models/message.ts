@@ -1,4 +1,6 @@
-import { User as MedusaStoreAdminUser, generateEntityId } from "@medusajs/medusa";
+import { User as MedusaStoreAdminUser } from "@medusajs/medusa";
+import generateEntityId from "../helpers/generate-entity-id";
+
 import {
     JoinColumn,
     ManyToOne,
@@ -20,7 +22,49 @@ import {
 } from "../constants";
 
 import MedusaPluginMessagingSource from "./source";
-import { medusaPluginMessagingMessageEvents } from "@api/events/message";
+import { medusaPluginMessagingMessageEvents } from "../api/events/message";
+import Message, { AuthorType } from "../types/message";
+
+/**
+ * if
+ * * authorType = SYSTEM | AUTOMATIC | UNKNOWN => can contain author name, description and avatar url.
+ * * authorType = STAFF => contain authorId and author and possibly name, description and avatar url (name, description and avatar url are previligged to the one of the author).
+ * * authorType = CUSTOMER => all fields are null
+ */
+export class MessageAuthor {
+    @Column({
+        type: "enum",
+        enum: AuthorType,
+        default: AuthorType.UNKNOWN,
+        nullable: false,
+        name: "authorType"
+    })
+    type: AuthorType;
+
+    /*---*/
+
+    @Column({ type: "varchar", nullable: true, name: "authorUserId" })
+    userId?: string;
+
+    @ManyToOne(() => MedusaStoreAdminUser, { nullable: true, onUpdate: "CASCADE", onDelete: "SET NULL" })
+    /**
+     * ERROR: join-column name should be id, userId or what ?
+     * SOLUTION: since migrations are created manually you can name userId
+     */
+    @JoinColumn({ name: "authorUserId", referencedColumnName: "id" })
+    user?: MedusaStoreAdminUser;
+
+    /*---*/
+
+    @Column({ type: "varchar", nullable: true, name: "authorName" })
+    name?: string | null;
+
+    @Column({ type: "varchar", nullable: true, name: "authorDescription" })
+    description?: string | null;
+
+    @Column({ type: "varchar", nullable: true, name: "authorAvatarurl" })
+    avatarUrl?: string | null;
+}
 
 /**
  * IMPORTANT: only one channel per customer
@@ -28,7 +72,7 @@ import { medusaPluginMessagingMessageEvents } from "@api/events/message";
 @Entity({
     name: DATABASE_MESSAGE_TABLE_NAME
 })
-export default class MedusaPluginMessagingMessage {
+export default class MedusaPluginMessagingMessage implements Message {
     @PrimaryColumn({ type: "varchar" })
     id: string;
 
@@ -82,52 +126,4 @@ export default class MedusaPluginMessagingMessage {
     private afterRemove() {
         medusaPluginMessagingMessageEvents.emit("medusa-plugin-messaging-message-delete-event", this);
     }
-}
-
-export enum AuthorType {
-    SYSTEM,
-    STAFF,
-    AUTOMATIC,
-    CUSTOMER,
-    UNKNOWN
-};
-
-/**
- * if
- * * authorType = SYSTEM | AUTOMATIC | UNKNOWN => can contain author name, description and avatar url.
- * * authorType = STAFF => contain authorId and author and possibly name, description and avatar url (name, description and avatar url are previligged to the one of the author).
- * * authorType = CUSTOMER => all fields are null
- */
-export class MessageAuthor {
-    @Column({
-        type: "enum",
-        enum: AuthorType,
-        default: AuthorType.UNKNOWN,
-        nullable: false
-    })
-    type: AuthorType;
-
-    /*---*/
-
-    @Column({ type: "varchar", nullable: true })
-    userId?: string;
-
-    @ManyToOne(() => MedusaStoreAdminUser, { nullable: true, onUpdate: "CASCADE", onDelete: "SET NULL" })
-    /**
-     * ERROR: join-column name should be id, userId or what ?
-     * SOLUTION: since migrations are created manually you can name userId
-     */
-    @JoinColumn({ name: "userId", referencedColumnName: "id" })
-    user?: MedusaStoreAdminUser;
-
-    /*---*/
-
-    @Column({ type: "varchar", nullable: true })
-    name?: string | null;
-
-    @Column({ type: "varchar", nullable: true })
-    description?: string | null;
-
-    @Column({ type: "varchar", nullable: true })
-    avatarUrl?: string | null;
 }

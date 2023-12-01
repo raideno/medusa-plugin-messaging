@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-import Source from "@models/source";
+import Source from "../models/source";
 
 type Handler = {
     id: string;

@@ -3,16 +3,15 @@ import { plainToInstance } from "class-transformer";
 
 import { MedusaError } from "@medusajs/utils";
 
-import MedusaPluginMessagingMessageService from "@services/message";
+import MedusaPluginMessagingMessageService from "../../../../../../services/medusa-plugin-messaging-message";
 
-import validate from "@api/helpers/validate";
-import validateSourceId from "@api/validators/validate-source-id";
-import validateChannelId from "@api/validators/validate-channel-id";
+import validateSourceId from "../../../../../../api/validators/validate-source-id";
+import validateChannelId from "../../../../../../api/validators/validate-channel-id";
 
-import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
-import { AuthorType } from "@models/message";
-import validateMessageId from "@api/validators/validate-message-id";
+import { QueryParamsValidator } from "./query-params-validator";
 
+import { EndpointRequestBodyType, EndpointResponseBodyType, EndpointRequestQueryParamsType } from "./types";
+import validate from "../../../../../helpers/validate";
 
 export default async (req: Request, res: Response): Promise<void> => {
     const messageService: MedusaPluginMessagingMessageService = req.scope.resolve(
@@ -20,6 +19,15 @@ export default async (req: Request, res: Response): Promise<void> => {
     );
 
     const userId = req.user.userId;
+
+    const queryParams = (req.query || {}) as EndpointRequestQueryParamsType;
+
+    const data = plainToInstance(QueryParamsValidator, queryParams);
+
+    const validation = await validate(data);
+
+    if (!validation.isValid)
+        throw new MedusaError(MedusaError.Types.INVALID_DATA, "query-params-validation-failed.");
 
     const channelId = req.params["channelId"] || "";
     const sourceId = req.params["sourceId"] || "";
@@ -43,6 +51,11 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     const [messages, count] = await messageService.listAndCount({
         sourceId: source.id,
+    }, {
+        ...queryParams,
+        order: {
+            "created_at": 'ASC'
+        },
     })
 
     const response: EndpointResponseBodyType = {

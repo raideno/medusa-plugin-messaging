@@ -11,18 +11,19 @@ import {
     OneToOne
 } from "typeorm";
 
-import { generateEntityId } from "@medusajs/medusa";
+import generateEntityId from "../helpers/generate-entity-id";
 
 import {
     DATABASE_CHANNEL_TABLE_NAME,
 } from "../constants";
 
 import Customer from "./customer";
+import Channel from "../types/channel";
 
 @Entity({
     name: DATABASE_CHANNEL_TABLE_NAME
 })
-export default class MedusaPluginMessagingChannel {
+export default class MedusaPluginMessagingChannel implements Channel {
     @PrimaryColumn({ type: "varchar", nullable: false, unique: true })
     id: string;
 

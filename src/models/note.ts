@@ -13,7 +13,9 @@ import {
     TreeChildren,
     TreeParent
 } from 'typeorm';
-import { User as MedusaStoreAdminUser, generateEntityId } from "@medusajs/medusa"
+import { User as MedusaStoreAdminUser } from "@medusajs/medusa"
+import generateEntityId from "../helpers/generate-entity-id";
+
 
 import Source from './source';
 import Message from './message';

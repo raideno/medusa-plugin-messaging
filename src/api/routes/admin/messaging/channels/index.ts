@@ -9,6 +9,7 @@ import getChannel from "./get-channel";
 import updateChannel from "./update-channel";
 import deleteChannel from "./delete-channel";
 import getChannelsEvents from "./get-channels-events";
+import getChannelsStatistics from "./get-channels-statistics";
 
 const router = Router();
 
@@ -19,6 +20,8 @@ export default (adminRouter: Router) => {
 
     router.get("/messaging/channels", wrapHandler(getChannels));
     router.post("/messaging/channels", wrapHandler(createChannel));
+
+    router.get("/messaging/channels/statistics", wrapHandler(getChannelsStatistics));
 
     router.get("/messaging/channels/events", wrapHandler(getChannelsEvents));
 

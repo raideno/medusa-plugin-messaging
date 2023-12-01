@@ -1,4 +1,4 @@
-import Handler from "@types/handler";
+import Handler from "./handler";
 
 type PluginOptions = {
     /**

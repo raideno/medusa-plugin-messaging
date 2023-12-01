@@ -1,7 +1,8 @@
 import { IsEnum, ValidateNested, IsString, IsObject, IsOptional } from "class-validator";
 
 import { EndpointRequestBodyType } from "./types";
-import { AuthorType, MessageAuthor } from "@models/message";
+import { MessageAuthor } from "../../../../../../models/message";
+import { AuthorType } from "../../../../../../types/message";
 
 /**
  * AUTHOR TYPE CAN'T BE CUSTOMER

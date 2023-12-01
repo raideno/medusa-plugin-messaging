@@ -2,9 +2,9 @@ import { Request, Response } from "express";
 
 import { MedusaError } from "@medusajs/utils";
 
-import MedusaPluginMessagingChannelService from "@services/channel";
+import MedusaPluginMessagingChannelService from "../../../../../../services/medusa-plugin-messaging-channel";
 
-import validateChannelId from "@api/validators/validate-channel-id";
+import validateChannelId from "../../../../../../api/validators/validate-channel-id";
 
 import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
 

@@ -9,7 +9,7 @@ import { Request, Response } from "express";
 import { ConfigModule, Logger } from "@medusajs/medusa"
 import { MedusaError } from "@medusajs/utils";
 
-import PluginOptions from "@types/plugin-options";
+import PluginOptions from "../../../../../../types/plugin-options";
 
 import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
 

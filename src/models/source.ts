@@ -10,7 +10,8 @@ import {
     PrimaryColumn,
     DeleteDateColumn
 } from "typeorm";
-import { generateEntityId } from "@medusajs/medusa";
+import generateEntityId from "../helpers/generate-entity-id";
+
 
 import {
     DATABASE_SOURCE_TABLE_NAME,
@@ -19,6 +20,7 @@ import {
 } from "../constants";
 
 import MedusaPluginMessagingChannel from "./channel";
+import Source from "../types/source";
 
 /**
  * TODO: only one channel per customer
@@ -27,7 +29,7 @@ import MedusaPluginMessagingChannel from "./channel";
 @Entity({
     name: DATABASE_SOURCE_TABLE_NAME,
 })
-export default class MedusaPluginMessagingSource {
+export default class MedusaPluginMessagingSource implements Source {
     @PrimaryColumn({ type: "varchar", nullable: false, unique: true })
     id: string;
 

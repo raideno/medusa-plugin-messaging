@@ -16,15 +16,7 @@
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "baseUrl": "src",
-    "paths": {
-      "@services/*": ["services/*"],
-      "@models/*": ["models/*"],
-      "@repositories/*": ["repositories/*"],
-      "@types/*": ["types/*"],
-      "@api/*": ["api/*"]
-    }
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/"],
   "exclude": [

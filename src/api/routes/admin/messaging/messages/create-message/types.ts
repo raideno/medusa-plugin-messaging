@@ -1,4 +1,4 @@
-import MedusaPluginMessagingMessage from "@models/message";
+import MedusaPluginMessagingMessage from "../../../../../../models/message";
 
 export type EndpointRequestBodyType = Pick<MedusaPluginMessagingMessage, "author" | "content" | "sourceId" | "metadata">;
 

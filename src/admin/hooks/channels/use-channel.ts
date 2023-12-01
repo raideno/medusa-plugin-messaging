@@ -1,27 +1,28 @@
 import useSWR, { mutate, MutatorOptions } from "swr";
 
-import getSettings from "../functions/get-settings";
+import getChannel from "../../functions/channels/get-channel";
 
-export const USE_SETTINGS_HOOK_KEY = (): string => ['messaging', 'channels'].join("/");
+export const USE_CHANNEL_HOOK_KEY = (channelId: string): string => ['messaging', 'channels', channelId].join("/");
 
-export type useSettingsDataType = Awaited<
-    ReturnType<typeof getSettings>
+export type useChannelsDataType = Awaited<
+    ReturnType<typeof getChannel>
 >;
 
-export default () =>
-    useSWR<useSettingsDataType>(
-        USE_SETTINGS_HOOK_KEY(),
-        getSettings.bind(null)
+export default (channelId: string) =>
+    useSWR<useChannelsDataType>(
+        USE_CHANNEL_HOOK_KEY(channelId),
+        getChannel.bind(null, channelId)
     );
 
-export const mutateSettings = (
+export const mutateChannel = (
+    channelId: string,
     data: (
-        oldData: useSettingsDataType
-    ) => Promise<useSettingsDataType>,
-    options?: boolean | MutatorOptions<useSettingsDataType, useSettingsDataType>
+        oldData: useChannelsDataType
+    ) => Promise<useChannelsDataType>,
+    options?: boolean | MutatorOptions<useChannelsDataType, useChannelsDataType>
 ) => {
-    return mutate<useSettingsDataType>(
-        USE_SETTINGS_HOOK_KEY(),
+    return mutate<useChannelsDataType>(
+        USE_CHANNEL_HOOK_KEY(channelId),
         data,
         options
     );

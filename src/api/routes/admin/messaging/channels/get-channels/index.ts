@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 
-import MedusaPluginMessagingChannelService from "@services/channel";
+import MedusaPluginMessagingChannelService from "../../../../../../services/medusa-plugin-messaging-channel";
 
 import { EndpointRequestBodyType, EndpointResponseBodyType } from "./types";
 
@@ -9,7 +9,7 @@ export default async (req: Request, res: Response): Promise<void> => {
         "medusaPluginMessagingChannelService"
     );
 
-    const [channels, count] = await channelService.listAndCount();
+    const [channels, count] = await channelService.listAndCount({});
 
     const response: EndpointResponseBodyType = {
         channels: channels,

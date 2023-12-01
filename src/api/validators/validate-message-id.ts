@@ -1,7 +1,7 @@
 import { MedusaContainer } from "@medusajs/medusa"
 
-import Message from "@models/message";
-import MessageService from "@services/message";
+import Message from "../../models/message";
+import MessageService from "../../services/medusa-plugin-messaging-message";
 
 export default async (container: MedusaContainer, messageId: string): Promise<Message | null | undefined> => {
     const messageService: MessageService = container.resolve("medusaPluginMessagingMessageService");

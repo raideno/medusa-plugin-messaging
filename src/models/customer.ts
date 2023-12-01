@@ -3,10 +3,12 @@ import {
     Customer as MedusaCustomer,
 } from "@medusajs/medusa"
 
+import CustomerType from "../types/customer";
+
 import MedusaPluginMessagingChannel from "./channel";
 
 @Entity()
-export default class Customer extends MedusaCustomer {
+export default class Customer extends MedusaCustomer implements CustomerType {
     @Column({ type: "varchar", nullable: true })
     channelId?: string | null;
 
