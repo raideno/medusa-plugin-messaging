@@ -1,13 +1,13 @@
-import { IsNumber, IsOptional } from "class-validator";
+import { IsNumberString, IsOptional } from "class-validator";
 
 import { EndpointRequestQueryParamsType } from "./types";
 
 export class QueryParamsValidator implements EndpointRequestQueryParamsType {
     @IsOptional()
-    @IsNumber()
-    offset: number;
+    @IsNumberString()
+    offset?: number;
 
     @IsOptional()
-    @IsNumber()
-    limit: number;
+    @IsNumberString()
+    limit?: number;
 }

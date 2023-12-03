@@ -7,8 +7,13 @@ import useChannel from "../hooks/channels/use-channel";
 import useSource from "../hooks/sources/use-source";
 import Message from "../../types/message";
 import useMessages from "../hooks/messages/use-messages";
+import { useToggleState } from "@medusajs/ui";
 
 type MessagingInboxSourceChatContextType = {
+    isRightSideBarVisible: boolean;
+
+    toggleRightSideBarVisibility: () => void;
+
     isMessagesFetchLoading: boolean;
     isMessagesFetchError: boolean;
 
@@ -31,8 +36,7 @@ export const MessagingInboxSourceChatContextProvider = ({
     children,
 }: MessagingInboxSourceChatContextProviderProps) => {
 
-    // const [isMessagesFetchError, setIsFetchError] = useState<MessagingInboxSourceChatContextType["isMessagesFetchError"]>(false);
-    // const [isMessagesFetchLoading, setIsFetchLoading] = useState<MessagingInboxSourceChatContextType["isMessagesFetchLoading"]>(false);
+    const { state: isRightSideBarVisible, toggle: toggleRightSideBarVisibility } = useToggleState(true);
 
     const { data, isLoading: isMessagesFetchLoading, error: isMessagesFetchError } = useMessages(channelId, sourceId);
 
@@ -51,6 +55,9 @@ export const MessagingInboxSourceChatContextProvider = ({
     return (
         <MessagingInboxSourceChatContext.Provider
             value={{
+                isRightSideBarVisible,
+                toggleRightSideBarVisibility,
+
                 isMessagesFetchLoading,
                 isMessagesFetchError,
 

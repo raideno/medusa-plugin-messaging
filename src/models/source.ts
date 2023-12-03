@@ -8,7 +8,10 @@ import {
     Column,
     Entity,
     PrimaryColumn,
-    DeleteDateColumn
+    DeleteDateColumn,
+    AfterInsert,
+    AfterUpdate,
+    AfterRemove
 } from "typeorm";
 import generateEntityId from "../helpers/generate-entity-id";
 
@@ -21,6 +24,7 @@ import {
 
 import MedusaPluginMessagingChannel from "./channel";
 import Source from "../types/source";
+import { medusaPluginMessagingSourceEvents } from "../api/events/source";
 
 /**
  * TODO: only one channel per customer
@@ -70,5 +74,20 @@ export default class MedusaPluginMessagingSource implements Source {
     @BeforeInsert()
     private beforeInsert(): void {
         this.id = generateEntityId(this.id, "medusa-plugin-messaging-source")
+    }
+
+    @AfterInsert()
+    private afterInsert() {
+        medusaPluginMessagingSourceEvents.emit("medusa-plugin-messaging-source-insert-event", this);
+    }
+
+    @AfterUpdate()
+    private afterUpdate() {
+        medusaPluginMessagingSourceEvents.emit("medusa-plugin-messaging-source-update-event", this);
+    }
+
+    @AfterRemove()
+    private afterRemove() {
+        medusaPluginMessagingSourceEvents.emit("medusa-plugin-messaging-source-delete-event", this);
     }
 }

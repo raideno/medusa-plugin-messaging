@@ -38,7 +38,9 @@ const InboxChannelsList = ({ }: InboxChannelsListProps) => {
 
     if (isChannelsFetchError || !channels || channels === undefined || channels === null)
         return (
-            <div>Channels-Fetch-Error.</div>
+            <div className="h-full flex flex-col items-center justify-center">
+                <SmallTypography className="text-center">Channels Fetch Error :( Try Again.</SmallTypography>
+            </div>
         )
 
     if (channels.length === 0)

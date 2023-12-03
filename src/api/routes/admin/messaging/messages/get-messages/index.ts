@@ -52,7 +52,8 @@ export default async (req: Request, res: Response): Promise<void> => {
     const [messages, count] = await messageService.listAndCount({
         sourceId: source.id,
     }, {
-        ...queryParams,
+        skip: parseInt(queryParams.offset as unknown as string),
+        take: parseInt(queryParams.limit as unknown as string),
         order: {
             "created_at": 'ASC'
         },

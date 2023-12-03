@@ -3,6 +3,8 @@ import { ChangeEvent } from "react";
 import { Input } from "@medusajs/ui";
 
 import { useMessagingInboxChannelsContext } from "../../../../../contexts/messaging-inbox-channels-context";
+import Skeleton from "../../../../../components/ui/skeleton";
+import SmallTypography from "../../../../../components/typography/small";
 
 type InboxPageHeaderChannelsSearchInputProps = {}
 
@@ -24,17 +26,19 @@ const InboxPageHeaderChannelsSearchInput = ({ }: InboxPageHeaderChannelsSearchIn
 
     if (isChannelsFetchLoading)
         return (
-            <div>Loading-Channels...</div>
+            <Skeleton className="w-full h-8 rounded-md" />
         )
 
     if (isChannelsFetchError || !channels)
         return (
-            <div>Channels-Error.</div>
+            <div className="w-full h-8 rounded-md flex flex-row items-center justify-center">
+                <SmallTypography>Channels Fetch Error.</SmallTypography>
+            </div>
         )
 
     return (
         <Input
-            size="small"
+            size="base"
             type="search"
             value={filter.search}
             onChange={handleChange}

@@ -21,17 +21,17 @@ export default async (req: Request, res: Response): Promise<void> => {
 
     const userId = req.user.userId;
 
-    const channelId = req.params["channelId"] || "";
+    // const channelId = req.params["channelId"] || "";
 
     if (!userId)
         throw new MedusaError(MedusaError.Types.UNAUTHORIZED, "you must be logged in as an admin to access messaging events.");
 
-    const isChannelIdValid = await validateChannelId(req.scope, channelId);
+    // const isChannelIdValid = await validateChannelId(req.scope, channelId);
 
-    if (!isChannelIdValid)
-        throw new MedusaError(MedusaError.Types.INVALID_DATA, "invalid channelId provided.");
+    // if (!isChannelIdValid)
+    //     throw new MedusaError(MedusaError.Types.INVALID_DATA, "invalid channelId provided.");
 
-    const channel = isChannelIdValid;
+    // const channel = isChannelIdValid;
 
     /**
      * handle the various events

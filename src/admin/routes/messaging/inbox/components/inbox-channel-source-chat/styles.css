@@ -1,0 +1,8 @@
+.source-chat-pattern-background {
+  background-color: #ffffff;
+  opacity: 0.5;
+  background-image: radial-gradient(#000000 0.75px, transparent 0.75px),
+    radial-gradient(#000000 0.75px, #ffffff 0.75px);
+  background-size: 30px 30px;
+  background-position: 0 0, 15px 15px;
+}

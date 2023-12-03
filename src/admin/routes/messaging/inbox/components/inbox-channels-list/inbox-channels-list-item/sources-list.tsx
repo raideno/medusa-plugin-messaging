@@ -1,9 +1,11 @@
+import { Button } from "@medusajs/ui";
 import Channel from "../../../../../../../types/channel";
 
 import useSources from "../../../../../../hooks/sources/use-sources";
 
 import SourcesListItem from "./sources-list-item";
 import SourcesListItemSkeleton from "./sources-list-item-skeleton";
+import CreateChannelSourceModal from "../../../../../../components/complex/create-channel-source-modal";
 
 type ListProps = {
     children: React.ReactNode[];
@@ -11,7 +13,7 @@ type ListProps = {
 
 const List = ({ children }: ListProps) => {
     return (
-        <div className="flex flex-col gap-1">
+        <div className="w-full flex flex-col gap-2">
             {children}
         </div>
     )
@@ -53,6 +55,9 @@ const SourcesList = ({ channel }: SourcesListProps) => {
                     />
                 )
             })}
+            <CreateChannelSourceModal channel={channel} >
+                <Button className="w-full" variant="secondary">Create Source</Button>
+            </CreateChannelSourceModal>
         </List>
     )
 }

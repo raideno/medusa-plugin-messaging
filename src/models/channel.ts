@@ -8,7 +8,10 @@ import {
     BeforeInsert,
     DeleteDateColumn,
     JoinColumn,
-    OneToOne
+    OneToOne,
+    AfterInsert,
+    AfterUpdate,
+    AfterRemove
 } from "typeorm";
 
 import generateEntityId from "../helpers/generate-entity-id";
@@ -19,6 +22,7 @@ import {
 
 import Customer from "./customer";
 import Channel from "../types/channel";
+import { medusaPluginMessagingChannelEvents } from "../api/events/channel";
 
 @Entity({
     name: DATABASE_CHANNEL_TABLE_NAME
@@ -55,5 +59,20 @@ export default class MedusaPluginMessagingChannel implements Channel {
     @BeforeInsert()
     private beforeInsert(): void {
         this.id = generateEntityId(this.id, "medusa-plugin-messaging-channel")
+    }
+
+    @AfterInsert()
+    private afterInsert() {
+        medusaPluginMessagingChannelEvents.emit("medusa-plugin-messaging-channel-insert-event", this);
+    }
+
+    @AfterUpdate()
+    private afterUpdate() {
+        medusaPluginMessagingChannelEvents.emit("medusa-plugin-messaging-channel-update-event", this);
+    }
+
+    @AfterRemove()
+    private afterRemove() {
+        medusaPluginMessagingChannelEvents.emit("medusa-plugin-messaging-channel-delete-event", this);
     }
 }

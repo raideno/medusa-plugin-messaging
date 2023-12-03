@@ -154,7 +154,7 @@ const CreateChannelModal = ({
                                 value={filter.key}
                                 onValueChange={handleFilterKeyValueChange}
                             >
-                                <Select.Trigger>
+                                <Select.Trigger className="w-full">
                                     <Select.Value placeholder="Filter Key" />
                                 </Select.Trigger>
                                 <Select.Content>
@@ -166,6 +166,7 @@ const CreateChannelModal = ({
                                 </Select.Content>
                             </Select>
                             <Input
+                                className="w-full"
                                 size="small"
                                 type="search"
                                 value={filter.search}

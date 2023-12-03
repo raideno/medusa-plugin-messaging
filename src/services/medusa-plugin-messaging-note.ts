@@ -62,6 +62,20 @@ export default class MedusaPluginMessagingNoteService extends TransactionBaseSer
         return noteRepository.findAndCount(query);
     }
 
+    async listAndCountTargetNotes(targetId: string, config: FindConfig<Note> = {
+        skip: 0,
+        take: 20,
+        relations: [],
+    }): Promise<[Note[], number]> {
+        const noteRepository = this.activeManager_.withRepository(
+            this.noteRepository_
+        );
+
+        const query = buildQuery({ targetId: targetId }, config);
+
+        return noteRepository.findAndCount(query);
+    }
+
     async retrieve(
         id: string,
         config?: FindConfig<Note>
@@ -83,7 +97,7 @@ export default class MedusaPluginMessagingNoteService extends TransactionBaseSer
      * REVERT: removed author
      */
     async create(
-        data: Pick<Note, "authorId" | "content" | "metadata" | "parent" | "children" | "targetId" | "channel" | "source" | "message">
+        data: Pick<Note, "authorId" | "title" | "content" | "metadata" | "parentId" | "targetId">
     ): Promise<Note> {
         return this.atomicPhase_(async (manager) => {
             const noteRepository = manager.withRepository(
@@ -91,15 +105,12 @@ export default class MedusaPluginMessagingNoteService extends TransactionBaseSer
             )
             const note = noteRepository.create();
 
+            note.parentId = data.parentId;
             note.authorId = data.authorId;
+            note.title = data.title;
             note.content = data.content;
             note.metadata = data.metadata;
-            note.parent = data.parent;
-            note.children = data.children;
             note.targetId = data.targetId;
-            note.channel = data.channel;
-            note.source = data.source;
-            note.message = data.message;
 
             const result = await noteRepository.save(note);
 

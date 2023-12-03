@@ -9,6 +9,7 @@ export class NoteCreate1701271107913 implements MigrationInterface {
                 "id" character varying NOT NULL,
                 "authorId" character varying NOT NULL,
                 "content" character varying NOT NULL,
+                "title" character varying NOT NULL DEFAULT "untitled",
                 "metadata" jsonb,
                 "targetId" character varying NOT NULL,
                 "version" integer NOT NULL,

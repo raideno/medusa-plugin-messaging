@@ -10,6 +10,7 @@ import InboxChannelSourceChat from "./components/inbox-channel-source-chat";
 
 import InboxPageProviders from "./providers";
 import { Toaster } from "@medusajs/ui";
+import { MessagingInboxSourceChatContextProvider } from "../../../contexts/messaging-inbox-source-chat-context";
 
 const cleanContainerMarginAndPadding = () => {
     const container = document.querySelector("main");

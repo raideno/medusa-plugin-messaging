@@ -11,7 +11,10 @@ import {
     ManyToOne,
     JoinColumn,
     TreeChildren,
-    TreeParent
+    TreeParent,
+    AfterInsert,
+    AfterUpdate,
+    AfterRemove
 } from 'typeorm';
 import { User as MedusaStoreAdminUser } from "@medusajs/medusa"
 import generateEntityId from "../helpers/generate-entity-id";
@@ -23,13 +26,17 @@ import Channel from './channel';
 
 import {
     DATABASE_NOTE_TABLE_NAME,
+    DEFAULT_NOTE_TITLE
 } from "../constants";
+import { medusaPluginMessagingNoteEvents } from '../api/events/note';
+import Note from '../types/note';
+
 
 @Entity({
     name: DATABASE_NOTE_TABLE_NAME
 })
 @Tree("closure-table")
-export default class MedusaPluginMessagingNote {
+export default class MedusaPluginMessagingNote implements Note {
     @PrimaryColumn({ type: "varchar", nullable: false, unique: true })
     id: string;
 
@@ -40,16 +47,22 @@ export default class MedusaPluginMessagingNote {
     @JoinColumn({ name: "authorId", referencedColumnName: "id" })
     author: MedusaStoreAdminUser;
 
-    @Column({ type: "varchar" })
+    @Column({ type: "varchar", nullable: false, default: DEFAULT_NOTE_TITLE })
+    title: string;
+
+    @Column({ type: "varchar", nullable: false })
     content: string;
 
     @Column({ type: "jsonb", nullable: true })
     metadata?: Record<string, unknown> | null;
 
+    @Column({ name: "parentId", type: "varchar", nullable: true })
+    parentId?: string | null;
+
     @TreeParent({
         onDelete: 'CASCADE',
     })
-    parent: MedusaPluginMessagingNote;
+    parent?: MedusaPluginMessagingNote | null;
 
     @TreeChildren({
         cascade: true
@@ -86,5 +99,20 @@ export default class MedusaPluginMessagingNote {
     @BeforeInsert()
     private beforeInsert(): void {
         this.id = generateEntityId(this.id, "medusa-plugin-messaging-note")
+    }
+
+    @AfterInsert()
+    private afterInsert() {
+        medusaPluginMessagingNoteEvents.emit("medusa-plugin-messaging-note-insert-event", this);
+    }
+
+    @AfterUpdate()
+    private afterUpdate() {
+        medusaPluginMessagingNoteEvents.emit("medusa-plugin-messaging-note-update-event", this);
+    }
+
+    @AfterRemove()
+    private afterRemove() {
+        medusaPluginMessagingNoteEvents.emit("medusa-plugin-messaging-note-delete-event", this);
     }
 }
